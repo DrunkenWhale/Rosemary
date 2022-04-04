@@ -2,6 +2,8 @@ package rosemary.model
 
 import rosemary.model.JsonValue
 
-class JsonObject(val obj: Map[String, JsonValue])
+import scala.collection.mutable
+
+class JsonObject(val obj: mutable.HashMap[String, JsonValue] = mutable.HashMap.empty)
     extends JsonValue {
 }
