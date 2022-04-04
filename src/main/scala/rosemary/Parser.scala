@@ -23,7 +23,7 @@ class Parser(str: String) {
   }
 
   private def parseObject(): JsonObject = {
-    val res = new JsonObject()
+    val res = JsonObject()
     var key: String = ""
     var value: Any = null
     var expectToken = STRING_TOKEN | END_OBJECT_TOKEN
@@ -35,7 +35,7 @@ class Parser(str: String) {
         case BEGIN_OBJECT =>
           checkExpectToken(tokenType, expectToken)
           res.obj.put(key, parseObject())
-          expectToken = SEP_COMMA_TOKEN | END_OBJECT_TOKEN
+          expectToken = STRING_TOKEN | END_OBJECT_TOKEN
         case END_OBJECT =>
           checkExpectToken(tokenType, expectToken)
           return res
@@ -56,7 +56,7 @@ class Parser(str: String) {
           val preToken = reader.peekPrevious()
           if (preToken.tokenType == TokenType.SEP_COLON) {
             //this string as value
-            res.obj.put(key, parseString(preToken))
+            res.obj.put(key, parseString(token))
             expectToken = SEP_COMMA_TOKEN | END_OBJECT_TOKEN
           } else {
             // this string as key
@@ -150,7 +150,7 @@ class Parser(str: String) {
 
   private def parseString(token: Token): JsonString = {
     checkExpectToken(token.tokenType, STRING_TOKEN)
-    new JsonString(token.tokenValue)
+    JsonString(token.tokenValue)
   }
 
   private def parseNull(token: Token): JsonNull = {
@@ -165,7 +165,7 @@ class Parser(str: String) {
 
   private def checkExpectToken(tokenType: TokenType, expectToken: Int): Unit = {
     if ((tokenType.code & expectToken) == 0) {
-      throw new Exception("Unexpect Token")
+      throw new Exception(s"Unexpect TokenType: $tokenType")
     }
   }
 
