@@ -1,11 +1,11 @@
-import rosemary.Parser
-import rosemary.model.{JsonArray, JsonBoolean, JsonNumber, JsonObject, JsonValue}
-import rosemary.tokenizer.Tokenizer
-import rosemary.conv.JsonModelConversion.given
+import rosemary.parser.model.JsonObject
+import rosemary.parser.Parser
+import rosemary.parser.tokenizer.Tokenizer
 
 @main def test1(): Unit = {
-//  val obj = new Parser("{\"student\":{\"gender\":false},\"age\":114514,\"number\":[114514,1919810,1,1,4,5,1,4,8,{},1145141919810,{\"s123\":\"sss\"}]}").parse()
-  val obj = new Parser("""{ "programmers": [
+  //  val obj = new Parser("{\"student\":{\"gender\":false},\"age\":114514,\"number\":[114514,1919810,1,1,4,5,1,4,8,{},1145141919810,{\"s123\":\"sss\"}]}").parse()
+  val obj = new Parser(
+    """{ "programmers": [
 
     { "firstName": "Brett", "lastName":"McLaughlin", "email": "aaaa" },
 
@@ -37,4 +37,10 @@ import rosemary.conv.JsonModelConversion.given
   val number = (obj / "programmers" / 0 / "firstName")
 
   println(number)
+}
+
+@main
+def test2(): Unit = {
+  val r = new Parser("{\"name\":null}").parse()
+  println((r / "name"))
 }

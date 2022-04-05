@@ -1,4 +1,4 @@
-package rosemary.tokenizer;
+package rosemary.parser.tokenizer;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package rosemary.tokenizer;
+package rosemary.parser.tokenizer;
 
 
 public enum TokenType {

@@ -1,4 +1,4 @@
-package rosemary.tokenizer;
+package rosemary.parser.tokenizer;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -62,7 +62,7 @@ public class Tokenizer {
         if (ch <= '9' && ch >= '0') {
             return readNumber();
         }
-        throw new Exception("Illegal Character");
+        throw new Exception("Illegal Character: " + ch);
     }
 
     private Token readString() throws Exception {
@@ -146,7 +146,7 @@ public class Tokenizer {
     }
 
     private Token readNull() throws Exception {
-        if (reader.next() == 'u' || reader.next() == 'l' || reader.next() == 'l') {
+        if (reader.next() == 'u' && reader.next() == 'l' && reader.next() == 'l') {
             return new Token(null, TokenType.NULL);
         } else {
             throw new Exception("Invalid Null Value!");

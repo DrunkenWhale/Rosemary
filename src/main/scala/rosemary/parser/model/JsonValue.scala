@@ -1,6 +1,7 @@
-package rosemary.model
+package rosemary.parser.model
 
 trait JsonValue() {
+  
   val value: Any
 
   def /(name: String): JsonValue = {

@@ -1,6 +1,4 @@
-package rosemary.model
-
-import rosemary.model.JsonValue
+package rosemary.parser.model
 
 import scala.collection.mutable.ListBuffer
 

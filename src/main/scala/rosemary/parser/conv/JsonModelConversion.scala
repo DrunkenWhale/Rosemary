@@ -1,6 +1,6 @@
-package rosemary.conv
+package rosemary.parser.conv
 
-import rosemary.model.{JsonArray, JsonBoolean, JsonNull, JsonNumber, JsonObject, JsonString, JsonValue}
+import rosemary.parser.model.{JsonArray, JsonBoolean, JsonNumber, JsonObject, JsonString, JsonValue}
 
 object JsonModelConversion {
 

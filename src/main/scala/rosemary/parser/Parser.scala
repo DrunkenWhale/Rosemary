@@ -1,11 +1,13 @@
-package rosemary
+package rosemary.parser
 
-import rosemary.Parser.*
-import rosemary.model.{JsonArray, JsonBoolean, JsonNull, JsonNumber, JsonObject, JsonString, JsonValue}
-import rosemary.tokenizer.{Token, TokenListReader, TokenType, Tokenizer}
-import rosemary.tokenizer.TokenType.*
+import rosemary.parser.Parser.*
+import rosemary.parser.model.{JsonArray, JsonBoolean, JsonNull, JsonNumber, JsonObject, JsonString, JsonValue}
+import rosemary.parser.tokenizer.TokenType.*
+import rosemary.parser.tokenizer.{Token, TokenListReader, TokenType, Tokenizer}
+import rosemary.parser.tokenizer.TokenType
 
 import java.util
+import scala.annotation.tailrec
 
 class Parser(str: String) {
 
@@ -88,7 +90,7 @@ class Parser(str: String) {
         | NUMBER_TOKEN
         | BOOLEAN_TOKEN
         | STRING_TOKEN;
-    val res = new JsonArray()
+    val res = JsonArray()
     while (reader.hasNext) {
       val token = reader.next()
       val tokenType = token.tokenType
@@ -142,9 +144,9 @@ class Parser(str: String) {
   private def parseNumber(token: Token): JsonNumber = {
     checkExpectToken(token.tokenType, NUMBER_TOKEN)
     if (token.tokenValue.contains('.')) {
-      new JsonNumber(java.lang.Double.valueOf(token.tokenValue))
+      JsonNumber(java.lang.Double.valueOf(token.tokenValue))
     } else {
-      new JsonNumber(java.lang.Long.valueOf(token.tokenValue))
+      JsonNumber(java.lang.Long.valueOf(token.tokenValue))
     }
   }
 
