@@ -9,11 +9,11 @@ import rosemary.parser.tokenizer.TokenType
 import java.util
 import scala.annotation.tailrec
 
-class Parser(str: String) {
+private class Parser(str: String) {
 
   private val reader: TokenListReader = TokenListReader(new Tokenizer(str).tokenizer())
 
-  def parse(): JsonValue = {
+  def result(): JsonValue = {
     val token = reader.next()
     if (token.tokenType == BEGIN_OBJECT) {
       parseObject()
@@ -162,7 +162,7 @@ class Parser(str: String) {
 
   private def parseBoolean(token: Token): JsonBoolean = {
     checkExpectToken(token.tokenType, BOOLEAN_TOKEN)
-    new JsonBoolean(java.lang.Boolean.valueOf(token.tokenValue))
+    JsonBoolean(java.lang.Boolean.valueOf(token.tokenValue))
   }
 
   private def checkExpectToken(tokenType: TokenType, expectToken: Int): Unit = {
@@ -174,6 +174,14 @@ class Parser(str: String) {
 }
 
 object Parser {
+
+
+  def parse(str: String): JsonValue = {
+    Parser(str).result()
+  }
+  
+  def apply(str: String): Parser
+  = new Parser(str)
 
   private val BEGIN_OBJECT_TOKEN = 1
   private val END_OBJECT_TOKEN = 2

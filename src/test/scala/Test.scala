@@ -1,11 +1,10 @@
 import rosemary.parser.model.JsonObject
-import rosemary.parser.Parser
+import rosemary.parser.Parser.*
 import rosemary.parser.tokenizer.Tokenizer
-import rosemary.stringify.Demo
 
 @main def test1(): Unit = {
-  //  val obj = new Parser("{\"student\":{\"gender\":false},\"age\":114514,\"number\":[114514,1919810,1,1,4,5,1,4,8,{},1145141919810,{\"s123\":\"sss\"}]}").parse()
-  val obj = new Parser(
+  //  val obj = new Parser("{\"student\":{\"gender\":false},\"age\":114514,\"number\":[114514,1919810,1,1,4,5,1,4,8,{},1145141919810,{\"s123\":\"sss\"}]}").result()
+  val obj = parse(
     """{ "programmers": [
 
     { "firstName": "Brett", "lastName":"McLaughlin", "email": "aaaa" },
@@ -32,7 +31,7 @@ import rosemary.stringify.Demo
 
     { "firstName": "Sergei", "lastName": "Rachmaninoff", "instrument": "piano" }
 
-    ] }""""").parse()
+    ] }""""")
 
 
   val number = (obj / "programmers" / 0 / "firstName")
@@ -42,12 +41,26 @@ import rosemary.stringify.Demo
 
 @main
 def test2(): Unit = {
-  val r = new Parser("{\"name\":null}").parse()
-  println((r / "name"))
+  val r = parse("{\"name\":null}")
+  println(r / "name")
 }
 
 @main
 def test3(): Unit = {
-  val r = new Parser("{\"name\":\"114\",\"age\":514,\"d\":{\"gender\":true,\"number\":114514},\"list\":[1,4,1,5,4,5,\"ddd\"],\"map\":{\"1919810\":[1,1,4,5,1,4],\"1\":1,\"114514\":1919810}}").parse()
+  val r = parse("{\"name\":\"114\",\"age\":514,\"d\":{\"gender\":true,\"number\":114514},\"list\":[1,4,1,5,4,5,\"ddd\"],\"map\":{\"1919810\":[1,1,4,5,1,4],\"1\":1,\"114514\":1919810}}")
   println(r / "name")
+}
+
+@main
+def test4(): Unit = {
+  import rosemary.stringify.Generate.*
+  import rosemary.stringify.conv.ValueToJsonType.given
+  val r = obj(
+    "name" -> "",
+    "sss" -> 114514,
+    "array" -> arr(1, 1, 4, 51, 4, 7, obj {
+      "114514" -> 1919810
+    })
+  )
+  println(r)
 }

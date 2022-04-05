@@ -2,7 +2,7 @@ package rosemary.parser.conv
 
 import rosemary.parser.model.{JsonArray, JsonBoolean, JsonNumber, JsonObject, JsonString, JsonValue}
 
-object JsonModelConversion {
+object JsonTypeToValue {
 
   given jsonValueToMap: Conversion[JsonValue, Map[String, JsonValue]] with {
     def apply(jsonValue: JsonValue): Map[String, JsonValue] = {
@@ -40,6 +40,18 @@ object JsonModelConversion {
     }
   }
 
+  given jsonValueToInt: Conversion[JsonValue, Int] with {
+    def apply(jsonValue: JsonValue): Int = {
+      jsonValue.asInstanceOf[JsonNumber].value.intValue()
+    }
+  }
+
+  given jsonValueToFloat: Conversion[JsonValue, Float] with {
+    def apply(jsonValue: JsonValue): Float = {
+      jsonValue.asInstanceOf[JsonNumber].value.floatValue()
+    }
+  }
+
   /* json value convert above this line */
 
   given jsonArrayToArray: Conversion[JsonArray, Array[JsonValue]] with {
@@ -63,6 +75,18 @@ object JsonModelConversion {
   given jsonNumberToDouble: Conversion[JsonNumber, Double] with {
     def apply(jsonNumber: JsonNumber): Double = {
       jsonNumber.value.doubleValue()
+    }
+  }
+
+  given jsonNumberToInt: Conversion[JsonNumber, Int] with {
+    def apply(jsonNumber: JsonNumber): Int = {
+      jsonNumber.value.intValue()
+    }
+  }
+
+  given jsonNumberToFloat: Conversion[JsonNumber, Float] with {
+    def apply(jsonNumber: JsonNumber): Float = {
+      jsonNumber.value.floatValue()
     }
   }
 
