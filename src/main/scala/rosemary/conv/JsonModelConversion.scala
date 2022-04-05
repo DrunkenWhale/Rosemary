@@ -4,6 +4,44 @@ import rosemary.model.{JsonArray, JsonBoolean, JsonNull, JsonNumber, JsonObject,
 
 object JsonModelConversion {
 
+  given jsonValueToMap: Conversion[JsonValue, Map[String, JsonValue]] with {
+    def apply(jsonValue: JsonValue): Map[String, JsonValue] = {
+      jsonValue.asInstanceOf[JsonObject].value.toMap
+    }
+  }
+
+  given jsonValueToList: Conversion[JsonValue, List[JsonValue]] with {
+    def apply(jsonValue: JsonValue): List[JsonValue] = {
+      jsonValue.asInstanceOf[JsonArray].value.result()
+    }
+  }
+
+  given jsonValueToArray: Conversion[JsonValue, Array[JsonValue]] with {
+    def apply(jsonValue: JsonValue): Array[JsonValue] = {
+      jsonValue.asInstanceOf[JsonArray].value.result().toArray
+    }
+  }
+
+  given jsonValueToBoolean: Conversion[JsonValue, Boolean] with {
+    def apply(jsonValue: JsonValue): Boolean = {
+      jsonValue.asInstanceOf[JsonBoolean].value
+    }
+  }
+
+  given jsonValueToLong: Conversion[JsonValue, Long] with {
+    def apply(jsonValue: JsonValue): Long = {
+      jsonValue.asInstanceOf[JsonNumber].value.longValue()
+    }
+  }
+
+  given jsonValueToDouble: Conversion[JsonValue, Double] with {
+    def apply(jsonValue: JsonValue): Double = {
+      jsonValue.asInstanceOf[JsonNumber].value.doubleValue()
+    }
+  }
+
+  /* json value convert above this line */
+
   given jsonArrayToArray: Conversion[JsonArray, Array[JsonValue]] with {
     def apply(jsonArray: JsonArray): Array[JsonValue] = {
       jsonArray.value.result().toArray
@@ -28,11 +66,6 @@ object JsonModelConversion {
     }
   }
 
-  given jsonNullToNull: Conversion[JsonNull, Null] with {
-    def apply(jsonNull: JsonNull): Null = {
-      null
-    }
-  }
 
   given jsonStringToString: Conversion[JsonString, String] with {
     def apply(jsonString: JsonString): String = {
