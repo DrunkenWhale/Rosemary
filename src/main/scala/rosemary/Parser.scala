@@ -9,7 +9,7 @@ import java.util
 
 class Parser(str: String) {
 
-  val reader: TokenListReader = TokenListReader(new Tokenizer(str).tokenizer())
+  private val reader: TokenListReader = TokenListReader(new Tokenizer(str).tokenizer())
 
   def parse(): JsonValue = {
     val token = reader.next()
@@ -34,29 +34,29 @@ class Parser(str: String) {
       tokenType match {
         case BEGIN_OBJECT =>
           checkExpectToken(tokenType, expectToken)
-          res.obj.put(key, parseObject())
-          expectToken = STRING_TOKEN | END_OBJECT_TOKEN
+          res.value.put(key, parseObject())
+          expectToken = SEP_COMMA_TOKEN | END_OBJECT_TOKEN
         case END_OBJECT =>
           checkExpectToken(tokenType, expectToken)
           return res
         case BEGIN_ARRAY =>
           checkExpectToken(tokenType, expectToken)
-          res.obj.put(key, parseArray())
+          res.value.put(key, parseArray())
           expectToken = SEP_COMMA_TOKEN | END_OBJECT_TOKEN
         case NULL =>
-          res.obj.put(key, parseNull(token))
+          res.value.put(key, parseNull(token))
           expectToken = SEP_COMMA_TOKEN | END_OBJECT_TOKEN
         case BOOLEAN =>
-          res.obj.put(key, parseBoolean(token))
+          res.value.put(key, parseBoolean(token))
           expectToken = SEP_COMMA_TOKEN | END_OBJECT_TOKEN
         case NUMBER =>
-          res.obj.put(key, parseNumber(token))
+          res.value.put(key, parseNumber(token))
           expectToken = SEP_COMMA_TOKEN | END_OBJECT_TOKEN
         case STRING =>
           val preToken = reader.peekPrevious()
           if (preToken.tokenType == TokenType.SEP_COLON) {
             //this string as value
-            res.obj.put(key, parseString(token))
+            res.value.put(key, parseString(token))
             expectToken = SEP_COMMA_TOKEN | END_OBJECT_TOKEN
           } else {
             // this string as key
@@ -96,26 +96,26 @@ class Parser(str: String) {
       tokenType match {
         case BEGIN_OBJECT =>
           checkExpectToken(tokenType, expectToken)
-          res.obj.addOne(parseObject())
+          res.value.addOne(parseObject())
           expectToken = SEP_COMMA_TOKEN | END_ARRAY_TOKEN
         case BEGIN_ARRAY =>
           checkExpectToken(tokenType, expectToken)
-          res.obj.addOne(parseArray())
+          res.value.addOne(parseArray())
           expectToken = SEP_COMMA_TOKEN | END_ARRAY_TOKEN
         case END_ARRAY =>
           checkExpectToken(tokenType, expectToken)
           return res
         case NULL =>
-          res.obj.addOne(parseNull(token))
+          res.value.addOne(parseNull(token))
           expectToken = SEP_COMMA_TOKEN | END_ARRAY_TOKEN
         case BOOLEAN =>
-          res.obj.addOne(parseBoolean(token))
+          res.value.addOne(parseBoolean(token))
           expectToken = SEP_COMMA_TOKEN | END_ARRAY_TOKEN
         case NUMBER =>
-          res.obj.addOne(parseNumber(token))
+          res.value.addOne(parseNumber(token))
           expectToken = SEP_COMMA_TOKEN | END_ARRAY_TOKEN
         case STRING =>
-          res.obj.addOne(parseString(token))
+          res.value.addOne(parseString(token))
           expectToken = SEP_COMMA_TOKEN | END_ARRAY_TOKEN
         case SEP_COLON =>
           checkExpectToken(tokenType, expectToken)
