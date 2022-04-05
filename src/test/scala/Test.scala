@@ -47,6 +47,7 @@ def test2(): Unit = {
 }
 
 @main
-def test3(): Unit ={
- 
+def test3(): Unit = {
+  val r = new Parser("{\"name\":\"114\",\"age\":514,\"d\":{\"gender\":true,\"number\":114514},\"list\":[1,4,1,5,4,5,\"ddd\"],\"map\":{\"1919810\":[1,1,4,5,1,4],\"1\":1,\"114514\":1919810}}").parse()
+  println(r / "name")
 }
