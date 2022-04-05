@@ -130,7 +130,7 @@ public class Tokenizer {
     }
 
     private Token readBoolean() throws Exception {
-        if (reader.next() == 't') {
+        if (reader.peek() == 't') {
             if (reader.next() == 'r' && reader.next() == 'u' && reader.next() == 'e') {
                 return new Token("true", TokenType.BOOLEAN);
             } else {
