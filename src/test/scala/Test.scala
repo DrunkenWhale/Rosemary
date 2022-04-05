@@ -1,6 +1,7 @@
 import rosemary.parser.model.JsonObject
 import rosemary.parser.Parser
 import rosemary.parser.tokenizer.Tokenizer
+import rosemary.stringify.Demo
 
 @main def test1(): Unit = {
   //  val obj = new Parser("{\"student\":{\"gender\":false},\"age\":114514,\"number\":[114514,1919810,1,1,4,5,1,4,8,{},1145141919810,{\"s123\":\"sss\"}]}").parse()
@@ -43,4 +44,9 @@ import rosemary.parser.tokenizer.Tokenizer
 def test2(): Unit = {
   val r = new Parser("{\"name\":null}").parse()
   println((r / "name"))
+}
+
+@main
+def test3(): Unit ={
+ 
 }
