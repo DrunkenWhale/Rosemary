@@ -1,13 +1,27 @@
 package rosemary.stringify
 
+import scala.annotation.tailrec
 import scala.collection.mutable.ListBuffer
-import scala.reflect.ClassTag
-
-class Stringify {
-
-}
 
 object Stringify {
+
+  extension[T <: Product] (x: T) {
+    def toJson: String = {
+      stringify(x)
+    }
+  }
+
+  extension[T <: Map[String, _]] (x: T) {
+    def toJson: String = {
+      stringify(x)
+    }
+  }
+
+  extension[T <: Seq[_]] (x: T) {
+    def toJson: String = {
+      stringify(x)
+    }
+  }
 
   def stringify[T <: Product](x: T): String = {
     stringifyCaseClass(x)
