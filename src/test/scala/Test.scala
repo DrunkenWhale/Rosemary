@@ -48,8 +48,10 @@ def test2(): Unit = {
 
 @main
 def test3(): Unit = {
+  import rosemary.parser.conv.JsonTypeToValue.given
   val r = parse("{\"name\":\"114\",\"age\":514,\"d\":{\"gender\":true,\"number\":114514},\"list\":[1,4,1,5,4,5,\"ddd\"],\"map\":{\"1919810\":[1,1,4,5,1,4],\"1\":1,\"114514\":1919810}}")
-  println(r / "name")
+  val number: Int = (r / "map" / "1919810" / 3)
+  println(number)
 }
 
 @main
@@ -65,4 +67,16 @@ def test4(): Unit = {
     )
   }
   println(r)
+}
+
+@main
+def test5(): Unit = {
+  import rosemary.stringify.Stringify.*
+  case class A(a: Int, b: String, c: B)
+  case class B(d: Boolean, e: Map[String, List[Int]])
+  val t = A(114, "514", B(true, Map(
+    "114" -> List(5, 1, 4),
+    "1919" -> List(8, 1, 0)
+  )))
+  println(t.toJson)
 }
