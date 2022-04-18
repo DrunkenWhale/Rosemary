@@ -1,9 +1,54 @@
 package rosemary.stringify
 
+import rosemary.parser.model.{JsonArray, JsonBoolean, JsonNull, JsonNumber, JsonObject, JsonString, JsonValue}
+
 import scala.annotation.tailrec
 import scala.collection.mutable.ListBuffer
 
 object Stringify {
+
+  def jsonValueStringifyEntrance(jsonValue: JsonValue): String = {
+    jsonValue match
+      case jsonArray: JsonArray => jsonArrayParser(jsonArray)
+      case jsonObject: JsonObject => jsonObjectParser(jsonObject)
+      case _ => throw new Exception("Illegal JsonValue Instance")
+  }
+
+  private def jsonValueParser(jsonValue: JsonValue): String = {
+    jsonValue match
+      case jsonArray: JsonArray => jsonArrayParser(jsonArray)
+      case jsonObject: JsonObject => jsonObjectParser(jsonObject)
+      case jsonString: JsonString => jsonStringParser(jsonString)
+      case jsonNull: JsonNull => jsonNullParser(jsonNull)
+      case jsonNumber: JsonNumber => jsonNumberParser(jsonNumber)
+      case jsonBoolean: JsonBoolean => jsonBooleanParser(jsonBoolean)
+      case _ => throw new Exception("Illegal JsonValue Instance")
+  }
+
+  private def jsonArrayParser(jsonArray: JsonArray): String = {
+    s"[${jsonArray.value.toList.map(x => jsonValueParser(x)).mkString(",")}]"
+  }
+
+  private def jsonObjectParser(jsonObject: JsonObject): String = {
+    s"{${jsonObject.value.map((k, v) => s"\"$k\":${jsonValueParser(v)}").mkString(",")}}"
+  }
+
+  private def jsonStringParser(jsonString: JsonString): String = {
+    "\"" + jsonString.value + "\""
+  }
+
+  private def jsonNullParser(jsonNull: JsonNull): String = {
+    "null"
+  }
+
+  private def jsonNumberParser(jsonNumber: JsonNumber): String = {
+    jsonNumber.value.toString
+  }
+
+  private def jsonBooleanParser(jsonBoolean: JsonBoolean): String = {
+    jsonBoolean.value.toString
+  }
+
 
   extension[T <: Product] (x: T) {
     def toJson: String = {
