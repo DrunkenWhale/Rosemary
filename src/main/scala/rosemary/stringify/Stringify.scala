@@ -7,7 +7,7 @@ import scala.collection.mutable.ListBuffer
 
 object Stringify {
 
-  def jsonValueStringifyEntrance(jsonValue: JsonValue): String = {
+  private[rosemary] def jsonValueStringify(jsonValue: JsonValue): String = {
     jsonValue match
       case jsonArray: JsonArray => jsonArrayParser(jsonArray)
       case jsonObject: JsonObject => jsonObjectParser(jsonObject)
