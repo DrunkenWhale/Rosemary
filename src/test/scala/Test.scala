@@ -1,8 +1,9 @@
-import rosemary.parser.model.JsonObject
+import rosemary.parser.model.{JsonObject, JsonValue}
 import rosemary.parser.Parser.*
 import rosemary.parser.tokenizer.Tokenizer
 import rosemary.stringify.Stringify.*
 import rosemary.stringify.Generate.{*, given}
+import rosemary.stringify.Pretty.*
 
 @main def test1(): Unit = {
   //  val obj = new Parser("{\"student\":{\"gender\":false},\"age\":114514,\"number\":[114514,1919810,1,1,4,5,1,4,8,{},1145141919810,{\"s123\":\"sss\"}]}").result()
@@ -85,7 +86,7 @@ def test5(): Unit = {
 @main
 def test6(): Unit = {
   val str = "{\"114514\":\"114514\",\"1919810\":[1,8,9,5,7,8,5,9,5,{\"sss\":114514},\"ssss\"]}"
-  val json = obj(
+  val json: JsonValue = obj(
     "sss", obj(
       "sss" -> obj(
         "114" -> "1919810",
@@ -95,10 +96,13 @@ def test6(): Unit = {
     ), obj(
       "sss", 14514
       , obj(
-        List(1, 1, 4, 5, 14)
+        Map("1" -> 114,
+          "1" -> 514,
+          "4" -> 1919)
       )
     ), null, true, false
   )
+  println(json.pretty())
   val res: String = json
   println(res)
 }
