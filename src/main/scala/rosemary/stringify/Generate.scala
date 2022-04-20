@@ -39,12 +39,12 @@ object Generate {
     JsonObject()
   }
 
-  def objImpl(dataObj: Seq[LegalJsonObjectType]): JsonValue = {
+  private def objImpl(dataObj: Seq[LegalJsonObjectType]): JsonValue = {
     val kvSeq = dataObj.map((k, v) => (k, jsonElementConvert(v)))
     JsonObject(mutable.HashMap.from(kvSeq))
   }
 
-  def arrImpl(dataArray: Seq[LegalJsonArrayType]): JsonValue = {
+  private def arrImpl(dataArray: Seq[LegalJsonArrayType]): JsonValue = {
     val xSeq = dataArray.map(x => jsonElementConvert(x))
     JsonArray(ListBuffer.from(xSeq))
   }

@@ -121,7 +121,7 @@ this way just like `gin.H{}` or `jsonify()`
 
 ~~but fat less than them~~
 
-compose `arr` and `obj` and wrapped them in `json`
+compose `obj`
 to get a complex json string
 
 ```scala
@@ -129,39 +129,92 @@ to get a complex json string
 
 @main
 def test(): Unit = {
-  import rosemary.stringify.Generate.*
-  import rosemary.stringify.conv.ValueToJsonType.given
-  val r: String = json {
-    arr(
-      1, 4, 1, obj {
-        "114514" -> "1919810"
+  import rosemary.stringify.Generate.{*, given}
+  val r = obj {
+    obj(
+      1, 4, 1, obj(
+        "114514" -> "1919810",
         "1919810" -> 1919810
-      }
+      )
     )
   }
-  println(r)
+  val rString: String = r
+  println(rString)
+  import rosemary.stringify.Pretty.pretty
+  println(r.pretty())
 }
 
 ```
 
 this example will output it to console
 
-```json
+```text
+[[1,4,1,{"114514":"1919810","1919810":1919810}]]
 [
-  1,
-  4,
-  1,
-  {
-    "1919810": 1919810
-  }
+    [
+        1,
+        4,
+        1,
+        {
+            "114514":"1919810",
+            "1919810":1919810
+        }
+    ]
 ]
 ```
 
-This is it, Thanks for your reading
+another example
 
-Ah, Is it too formal ? It's not my style
+```scala
 
-emm, fragile json library
+@main
+def test(): Unit = {
+  val json: JsonValue = obj(
+    "sss", obj(
+      "sss" -> obj(
+        "114" -> "1919810",
+        "514" -> "7894654",
+        "59964" -> 644542
+      )
+    ), obj(
+      "sss", 14514
+      , obj(
+        Map("1" -> 114,
+          "1" -> 514,
+          "4" -> 1919)
+      )
+    ), null, true, false
+  )
+  println(json.pretty())
+}
 
-give me a star if it is worth ?
+```
 
+this example will output into console
+
+```json
+
+[
+  "sss",
+  {
+    "sss": {
+      "514": "7894654",
+      "114": "1919810",
+      "59964": 644542
+    }
+  },
+  [
+    "sss",
+    14514,
+    {
+      "1": 514,
+      "4": 1919
+    }
+  ],
+  null,
+  true,
+  false
+]
+
+
+```

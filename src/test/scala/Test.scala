@@ -55,21 +55,23 @@ def test3(): Unit = {
   val number: Int = (r / "map" / "1919810" / 3)
   println(number)
 }
-//
-//@main
-//def test4(): Unit = {
-//  import rosemary.stringify.Generate.*
-//  import rosemary.stringify.conv.ValueToJsonType.given
-//  val r: String = json {
-//    arr(
-//      1, 4, 1, obj {
-//        "114514" -> "1919810"
-//        "1919810" -> 1919810
-//      }
-//    )
-//  }
-//  println(r)
-//}
+
+@main
+def test4(): Unit = {
+  import rosemary.stringify.Generate.{*, given}
+  val r = obj {
+    obj(
+      1, 4, 1, obj(
+        "114514" -> "1919810",
+        "1919810" -> 1919810
+      )
+    )
+  }
+  val rString: String = r
+  println(rString)
+  import rosemary.stringify.Pretty.pretty
+  println(r.pretty())
+}
 
 @main
 def test5(): Unit = {
@@ -103,6 +105,4 @@ def test6(): Unit = {
     ), null, true, false
   )
   println(json.pretty())
-  val res: String = json
-  println(res)
 }
