@@ -1,7 +1,8 @@
 import rosemary.parser.model.JsonObject
 import rosemary.parser.Parser.*
 import rosemary.parser.tokenizer.Tokenizer
-import rosemary.stringify.Stringify.{jsonValueStringifyEntrance, stringify}
+import rosemary.stringify.Stringify.*
+import rosemary.stringify.Generate.{*, given}
 
 @main def test1(): Unit = {
   //  val obj = new Parser("{\"student\":{\"gender\":false},\"age\":114514,\"number\":[114514,1919810,1,1,4,5,1,4,8,{},1145141919810,{\"s123\":\"sss\"}]}").result()
@@ -53,21 +54,21 @@ def test3(): Unit = {
   val number: Int = (r / "map" / "1919810" / 3)
   println(number)
 }
-
-@main
-def test4(): Unit = {
-  import rosemary.stringify.Generate.*
-  import rosemary.stringify.conv.ValueToJsonType.given
-  val r: String = json {
-    arr(
-      1, 4, 1, obj {
-        "114514" -> "1919810"
-        "1919810" -> 1919810
-      }
-    )
-  }
-  println(r)
-}
+//
+//@main
+//def test4(): Unit = {
+//  import rosemary.stringify.Generate.*
+//  import rosemary.stringify.conv.ValueToJsonType.given
+//  val r: String = json {
+//    arr(
+//      1, 4, 1, obj {
+//        "114514" -> "1919810"
+//        "1919810" -> 1919810
+//      }
+//    )
+//  }
+//  println(r)
+//}
 
 @main
 def test5(): Unit = {
@@ -84,5 +85,21 @@ def test5(): Unit = {
 @main
 def test6(): Unit = {
   val str = "{\"114514\":\"114514\",\"1919810\":[1,8,9,5,7,8,5,9,5,{\"sss\":114514},\"ssss\"]}"
-  println(jsonValueStringifyEntrance(parse(str)))
+  val json = obj(
+    "sss", obj(
+      "sss" -> obj(
+        "114" -> "1919810",
+        "514" -> "7894654",
+        "59964" -> 644542
+      )
+    ), obj(
+      "sss", 14514
+      , obj(
+        1, 1, 4, 5, 14, 7
+      )
+    ),null
+  )
+  println(json)
+  val res: String = json
+  println(res)
 }
