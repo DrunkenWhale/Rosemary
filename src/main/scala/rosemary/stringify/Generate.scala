@@ -17,18 +17,36 @@ object Generate {
 
   @targetName("obj")
   def obj(dataObj: LegalJsonObjectType*): JsonValue = {
-    val kvSeq = dataObj.map((k, v) => (k, jsonElementConvert(v)))
-    JsonObject(mutable.HashMap.from(kvSeq))
+    objImpl(dataObj)
   }
 
   @targetName("arr")
   def obj(dataArray: LegalJsonArrayType*): JsonValue = {
-    val xSeq = dataArray.map(x => jsonElementConvert(x))
-    JsonArray(ListBuffer.from(xSeq))
+    arrImpl(dataArray)
+  }
+
+  @targetName("objFromMap")
+  def obj(map: Map[String, LegalJsonDataType]): JsonValue = {
+    objImpl(map.toSeq)
+  }
+
+  @targetName("arrFromSeq")
+  def obj(dataArray: Seq[LegalJsonArrayType]): JsonValue = {
+    arrImpl(dataArray)
   }
 
   def obj(): JsonValue = {
     JsonObject()
+  }
+
+  def objImpl(dataObj: Seq[LegalJsonObjectType]): JsonValue = {
+    val kvSeq = dataObj.map((k, v) => (k, jsonElementConvert(v)))
+    JsonObject(mutable.HashMap.from(kvSeq))
+  }
+
+  def arrImpl(dataArray: Seq[LegalJsonArrayType]): JsonValue = {
+    val xSeq = dataArray.map(x => jsonElementConvert(x))
+    JsonArray(ListBuffer.from(xSeq))
   }
 
   private val jsonElementConvert = (x: LegalJsonDataType) => {

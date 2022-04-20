@@ -95,11 +95,10 @@ def test6(): Unit = {
     ), obj(
       "sss", 14514
       , obj(
-        1, 1, 4, 5, 14, 7
+        List(1, 1, 4, 5, 14)
       )
-    ),null
+    ), null, true, false
   )
-  println(json)
   val res: String = json
   println(res)
 }
