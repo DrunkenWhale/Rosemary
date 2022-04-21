@@ -27,12 +27,10 @@ private class Parser(str: String) {
   private def parseObject(): JsonObject = {
     val res = JsonObject()
     var key: String = ""
-    var value: Any = null
     var expectToken = STRING_TOKEN | END_OBJECT_TOKEN
     while (reader.hasNext) {
       val token = reader.next()
       val tokenType = token.tokenType
-      val tokenValue = token.tokenValue
       tokenType match {
         case BEGIN_OBJECT =>
           checkExpectToken(tokenType, expectToken)
